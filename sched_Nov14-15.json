@@ -1,0 +1,17 @@
+{
+  "schedule": [
+    { "away": "PHI", "home": "ORL" },
+    { "away": "CLE", "home": "WAS" },
+    { "away": "CHI", "home": "BOS" },
+    { "away": "MIA", "home": "BKN" },
+    { "away": "DET", "home": "TOR" },
+    { "away": "MEM", "home": "MIL" },
+    { "away": "NOP", "home": "MIN" },
+    { "away": "NYK", "home": "OKC" },
+    { "away": "UTA", "home": "DAL" },
+    { "away": "SAS", "home": "PHX" },
+    { "away": "POR", "home": "LAL" },
+    { "away": "GSW", "home": "HOU" },
+    { "away": "ATL", "home": "DEN" }
+  ]
+}
