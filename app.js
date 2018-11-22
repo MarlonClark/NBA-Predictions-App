@@ -1,20 +1,19 @@
 // NBA Game Prediction App
 // Functionality
 "use strict";
+const sched = fetch("./sched_Nov14-15.json")
+  .then(res => res.json())
+  .then(data => data.schedule);
 
-async function getTeams(match) {
-  // Get the schedule
-  const Schedule = await fetch("./sched_Nov14-15.json")
-    .then(res => res.json())
-    .then(data => data.schedule);
+const teams = fetch("./Last_3_Nov14.json")
+  .then(res => res.json())
+  .then(data => data.TEAMS);
 
-  // Get the team info
-  const Teams = await fetch("./Last_3_Nov14.json")
-    .then(res => res.json())
-    .then(data => data.TEAMS);
-  // const teamStats = Teams.TEAMS;
+async function showTeams(sched, teams, i) {
+  const Schedule = await sched;
+  const match = await teams;
 
-  let game = Schedule[match]; // {away: "PHI", home: "ORL"}
+  let game = Schedule[i]; // {away: "PHI", home: "ORL"}
   let home = game.home; // Home team abrv 'ORL'
   let away = game.away; // Away team abrv 'PHI'
 
@@ -27,14 +26,14 @@ async function getTeams(match) {
   const homeName = document.querySelector("#homeName");
   const awayCity = document.querySelector("#awayCity");
   const awayName = document.querySelector("#awayName");
-  homeCity.textContent = Teams[home].CITY;
-  homeName.textContent = Teams[home].NAME;
-  awayCity.textContent = Teams[away].CITY;
-  awayName.textContent = Teams[away].NAME;
+  homeCity.textContent = match[home].CITY;
+  homeName.textContent = match[home].NAME;
+  awayCity.textContent = match[away].CITY;
+  awayName.textContent = match[away].NAME;
 }
 
 let i = 0;
-getTeams(i);
+showTeams(sched, teams, i);
 getStats(i);
 
 // Buttons work; needs work, too dry...
@@ -49,7 +48,7 @@ prev.onclick = async () => {
       prev.classList.add("btn-secondary");
     }
   }
-  getTeams(i);
+  showTeams(sched, teams, i);
   getStats(i);
 };
 // "Next" button
@@ -65,10 +64,10 @@ next.onclick = async () => {
       next.classList.add("btn-secondary");
     }
   }
-  getTeams(i);
+  showTeams(sched, teams, i);
   getStats(i);
 };
 
 function mouseDown() {
-  document.getElementsByTagName('button');
+  document.getElementsByTagName("button");
 }
