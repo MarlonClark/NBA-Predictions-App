@@ -1,73 +1,77 @@
 // NBA Game Prediction App
-// Functionality
+// Behavior
 "use strict";
-const sched = fetch("./sched_Nov14-15.json")
+
+// Get matchup schedule
+const sched = fetch("./Sched.json")
   .then(res => res.json())
   .then(data => data.schedule);
-
-const teams = fetch("./Last_3_Nov14.json")
+// Get team stats
+const teams = fetch("./Stats.json")
   .then(res => res.json())
   .then(data => data.TEAMS);
 
-async function showTeams(sched, teams, i) {
+// Show team info
+const showTeams = async (sched, teams, i) => {
   const Schedule = await sched;
-  const match = await teams;
-
-  let game = Schedule[i]; // {away: "PHI", home: "ORL"}
+  const game = Schedule[i]; // {away: "PHI", home: "ORL"}
   let home = game.home; // Home team abrv 'ORL'
   let away = game.away; // Away team abrv 'PHI'
 
-  // Get & Set team logo images and titles
+  const match = await teams;
+  // Set team logos
   const homeLogo = document.querySelector("#home-img");
-  const awayLogo = document.querySelector("#away-img");
   homeLogo.setAttribute("src", `/images/${home}_logo.svg`);
+  const awayLogo = document.querySelector("#away-img");
   awayLogo.setAttribute("src", `/images/${away}_logo.svg`);
+  // Set team cities
   const homeCity = document.querySelector("#homeCity");
-  const homeName = document.querySelector("#homeName");
-  const awayCity = document.querySelector("#awayCity");
-  const awayName = document.querySelector("#awayName");
   homeCity.textContent = match[home].CITY;
-  homeName.textContent = match[home].NAME;
+  const awayCity = document.querySelector("#awayCity");
   awayCity.textContent = match[away].CITY;
+  // Set team names
+  const homeName = document.querySelector("#homeName");
+  homeName.textContent = match[home].NAME;
+  const awayName = document.querySelector("#awayName");
   awayName.textContent = match[away].NAME;
-}
+};
 
-let i = 0;
-showTeams(sched, teams, i);
-getStats(i);
-
-// Buttons work; needs work, too dry...
+// Button functionality
 const prev = document.querySelector("#prev");
+const page = document.querySelector("#pages");
 const next = document.querySelector("#next");
-// "Previous" button
-prev.onclick = async () => {
-  if (i != 0) {
-    i--;
-    next.classList.remove("btn-secondary");
-    if (i == 0) {
-      prev.classList.add("btn-secondary");
+let i = 1;
+
+// Show next or previous matchup
+const turnPage = elem => {
+  if (elem.id == "prev") {
+    // Previous button
+    if (i != 1) {
+      i--;
+      next.classList.remove("btn-secondary");
+      if (i == 1) {
+        prev.classList.add("btn-secondary");
+      }
+    }
+  } else {
+    // Next button
+    if (i != 12) {
+      i++;
+      prev.classList.remove("btn-secondary");
+      if (i == 12) {
+        next.classList.add("btn-secondary");
+      }
     }
   }
-  showTeams(sched, teams, i);
-  getStats(i);
-};
-// "Next" button
-next.onclick = async () => {
-  const games = await fetch("./sched_Nov14-15.json")
-    .then(res => res.json())
-    .then(data => data.schedule.length);
 
-  if (i != games - 1) {
-    i++;
-    prev.classList.remove("btn-secondary");
-    if (i == games - 1) {
-      next.classList.add("btn-secondary");
-    }
-  }
+  // Update page indicator
+  page.textContent = `${i} / 12`;
+  // Show new teams
   showTeams(sched, teams, i);
-  getStats(i);
+  // Predict the winner
+  getStats(sched, teams, i);
 };
 
-function mouseDown() {
-  document.getElementsByTagName("button");
-}
+// Initial render
+showTeams(sched, teams, 0);
+getStats(sched, teams, 0);

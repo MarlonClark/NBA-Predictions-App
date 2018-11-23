@@ -5,25 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>NBA Game Predictor</title>
+    <!-- Bootstrap -->
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
       integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
       crossorigin="anonymous"
     />
+    <!-- Icons -->
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
       integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
       crossorigin="anonymous"
     />
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Monoton|Courgette"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="app.css" />
   </head>
+
   <body class="bg-light">
     <div class="container text-center">
-      <!-- Site menu -->
+      <!-- Site menu / Navigation -->
       <nav class="navbar navbar-light bg-primary my-3 rounded shadow-sm">
-        <a href="#" class="navbar-brand text-white ">NBA Predictions</a>
+        <a href="#" class="navbar-brand text-white ">
+          <i class="fab fa-dribbble"></i> NBA Predictions</a
+        >
       </nav>
 
       <!-- Main area -->
@@ -32,7 +43,7 @@
         <div id="away-card" class="card shadow col-sm mx-3 px-0">
           <img
             id="away-img"
-            class="card-img-top"
+            class="card-img-top mt-2"
             src="/images/loading.svg"
             height="110"
             width="110"
@@ -41,12 +52,13 @@
           <div class="card-body">
             <h5 id="awayCity">Away City</h5>
             <h3 id="awayName" class="card-title">Away Team</h3>
-            <p id="away-text" class="card-text rounded"></p>
+            <p id="away-text" class="card-text rounded text-white p-1"></p>
           </div>
         </div>
 
+        <!-- Versus text -->
         <div id="vs" class="pt-5 mt-5 position-absolute d-none d-sm-inline">
-          <span class="bg-primary p-4 rounded-circle m-0 text-white shadow-lg"
+          <span class="bg-primary p-3 rounded-circle m-0 text-white shadow-lg"
             >VS</span
           >
         </div>
@@ -55,7 +67,7 @@
         <div id="home-card" class="card shadow col-sm mx-3 px-0">
           <img
             id="home-img"
-            class="card-img-top"
+            class="card-img-top mt-2"
             src="/images/loading.svg"
             height="110"
             width="110"
@@ -64,24 +76,33 @@
           <div class="card-body">
             <h5 id="homeCity">Home City</h5>
             <h3 id="homeName" class="card-title">Home Team</h3>
-            <p id="home-text" class="card-text rounded"></p>
+            <p id="home-text" class="card-text rounded text-white p-1"></p>
           </div>
         </div>
       </main>
 
-      <!-- Previous and Next buttons -->
+      <!-- Previous button -->
       <div class="row my-3 justify-content-around">
         <button
           id="prev"
           class="btn btn-lg btn-primary chngGame shadow btn-secondary"
+          title="Previous"
+          onclick="turnPage(this)"
           onmousedown="document.getElementById('prev').classList.remove('shadow')"
           onmouseup="document.getElementById('prev').classList.add('shadow')"
         >
           <i class="fas fa-arrow-left"></i>
         </button>
+
+        <!-- Page indicator -->
+        <div id="pages" class="btn btn-lg shadow btn-primary">1 / 12</div>
+
+        <!-- Next button -->
         <button
           id="next"
           class="btn btn-lg shadow btn-primary chngGame"
+          title="Next"
+          onclick="turnPage(this)"
           onmousedown="document.getElementById('next').classList.remove('shadow')"
           onmouseup="document.getElementById('next').classList.add('shadow')"
         >

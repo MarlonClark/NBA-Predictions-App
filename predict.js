@@ -1,25 +1,16 @@
 // NBA Game Prediction App
-// Functionality
+// Calculations
 "use strict";
 
-async function getStats(match) {
-  // Get the schedule
-  const Schedule = await fetch("./sched_Nov14-15.json")
-    .then(res => res.json())
-    .then(data => data.schedule);
-
-  // Get the team info
-  const Stats = await fetch("./Last_3_Nov14.json")
-    .then(res => res.json())
-    .then(data => data.TEAMS);
-  // const teamStats = Teams.TEAMS;
-
-  let game = Schedule[match]; // {away: "PHI", home: "ORL"}
+const getStats = async (sched, stats, i) => {
+  const Stats = await stats;
+  const Schedule = await sched;
+  let game = Schedule[i]; // {away: "PHI", home: "ORL"}
   let home = game.home; // Home team abrv 'ORL'
   let away = game.away; // Away team abrv 'PHI'
 
-  // Simply adding team stats together. Needs work.
-  function getScore(team) {
+  // Simply adds team stats together. Needs work.
+  const getScore = team => {
     let stats = Stats[team];
     let score =
       stats.W +
@@ -34,21 +25,26 @@ async function getStats(match) {
       stats.PF;
 
     return score;
-  }
+  };
 
+  // Compare stats total
   let homeScore = getScore(home);
   let awayScore = getScore(away);
 
+  // Display predicted winner
   const homeText = document.querySelector("#home-text");
   const awayText = document.querySelector("#away-text");
+  const winner = `<i class="fas fa-hat-wizard"></i> Predicted to win!`;
 
   if (homeScore > awayScore) {
-    awayText.textContent = "";
-    homeText.textContent = "Predicted to win!";
+    homeText.innerHTML = winner;
     homeText.classList.add("bg-success");
+    awayText.innerHTML = "";
+    awayText.classList.remove("bg-success");
   } else {
-    homeText.textContent = "";
-    awayText.textContent = "Predicted to win!";
+    awayText.innerHTML = winner;
     awayText.classList.add("bg-success");
+    homeText.innerHTML = "";
+    homeText.classList.remove("bg-success");
   }
-}
+};
